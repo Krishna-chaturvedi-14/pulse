@@ -16,10 +16,10 @@
                 "surface-bright": "#363940",
                 "inverse-on-surface": "#2d3137",
                 "surface-container-lowest": "#0a0e14",
-                "primary": "#a1c9ff",
+                "primary": "#3B9EFF",
                 "secondary-fixed-dim": "#d0bcff",
                 "primary-container": "#3b9eff",
-                "tertiary": "#25e0a7",
+                "tertiary": "#10D9A0",
                 "surface-container-high": "#262a30",
                 "surface-container": "#1c2026",
                 "on-primary-fixed": "#001c38",
@@ -41,7 +41,7 @@
                 "on-error": "#690005",
                 "outline-variant": "#404752",
                 "on-error-container": "#ffdad6",
-                "secondary": "#d0bcff",
+                "secondary": "#8B5CF6",
                 "surface-container-low": "#181c22",
                 "surface-container-highest": "#31353b",
                 "on-tertiary-container": "#003b29",
@@ -52,7 +52,7 @@
                 "on-tertiary-fixed-variant": "#00513a",
                 "inverse-primary": "#0060a8",
                 "on-secondary-fixed-variant": "#5516be",
-                "error": "#ffb4ab",
+                "error": "#F5A623",
                 "tertiary-container": "#00b081",
                 "inverse-surface": "#e0e2eb",
                 "on-tertiary": "#003827",
@@ -226,6 +226,10 @@
             z-index: 0;
             filter: blur(100px);
         }
+        .glow-mesh {
+            background: radial-gradient(circle at 30% 50%, rgba(59, 158, 255, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+        }
         .glow-blue {
             background: radial-gradient(circle, rgba(59, 158, 255, 0.15) 0%, rgba(59, 158, 255, 0) 70%);
         }
@@ -233,7 +237,7 @@
             background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 70%);
         }
         .glow-teal {
-            background: radial-gradient(circle, rgba(37, 224, 167, 0.1) 0%, rgba(37, 224, 167, 0) 70%);
+            background: radial-gradient(circle, rgba(16, 217, 160, 0.1) 0%, rgba(16, 217, 160, 0) 70%);
         }
         .card-bg {
             background-color: #101419;
@@ -262,13 +266,19 @@
             opacity: 1;
         }
         .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(59, 158, 255, 0.15);
+        }
+        .hover-glow-violet::before {
+            background: linear-gradient(to right, #8B5CF6, #3B9EFF);
+        }
+        .hover-glow-violet:hover {
             box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
         }
-        .hover-glow-teal:hover::before {
-            background: linear-gradient(to right, #25e0a7, #3B9EFF);
+        .hover-glow-teal::before {
+            background: linear-gradient(to right, #10D9A0, #3B9EFF);
         }
         .hover-glow-teal:hover {
-            box-shadow: 0 0 20px rgba(37, 224, 167, 0.15);
+            box-shadow: 0 0 20px rgba(16, 217, 160, 0.15);
         }
         .btn-primary {
             background: linear-gradient(135deg, #3B9EFF 0%, #8B5CF6 100%);
@@ -284,7 +294,13 @@
                               linear-gradient(to bottom, #1c2026 1px, transparent 1px);
             background-size: 40px 40px;
         }
-        .text-gradient {
+        .text-gradient-blue-teal {
+            background: linear-gradient(to right, #3B9EFF, #10D9A0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-blue-violet {
             background: linear-gradient(to right, #3B9EFF, #8B5CF6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -295,6 +311,34 @@
             transition: transform 0.2s ease-out;
             transform-style: preserve-3d;
         }
+        
+        .code-panel {
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+        
+        @media (min-width: 768px) {
+            .code-panel {
+                transform: perspective(1200px) rotateY(-6deg) rotateX(2deg);
+                box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5), -20px 0 30px -10px rgba(59, 158, 255, 0.1);
+            }
+            .code-panel:hover {
+                transform: perspective(1200px) rotateY(-2deg) rotateX(0.5deg);
+                box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), -10px 0 20px -5px rgba(139, 92, 246, 0.15);
+            }
+        }
+        
+        .code-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, #10D9A0, #8B5CF6, #3B9EFF);
+            z-index: 10;
+        }
+
         .data-line-bg {
             background: linear-gradient(90deg, transparent, rgba(59, 158, 255, 0.2), transparent);
             background-size: 200% 100%;
@@ -486,23 +530,19 @@ window.addEventListener('resize', () => {
 animate();
 </script>
 </div>
-<div class="glow-effect glow-blue top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-30"></div>
-<div class="glow-effect glow-violet bottom-0 right-1/4 transform translate-x-1/2 translate-y-1/4 w-[500px] h-[500px] opacity-20"></div>
+<div class="glow-effect glow-mesh top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] opacity-30"></div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-xl relative z-10">
 <div class="flex flex-col justify-center">
 <h1 class="font-headline-lg text-headline-xl mb-md text-on-surface">
-                        Enterprise-Grade ML <br/>
-<span class="text-gradient">for your startup</span>
+                        Catch failures. <br/>
+<span class="text-gradient-blue-violet">Predict what's next.</span>
 </h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant mb-xl max-w-2xl">
-                        Catch failures. Predict what's next. Anomaly detection and forecasting systems for early-stage startups.
+                        Anomaly detection and forecasting systems for early-stage startups. Production-ready, shipped in 2 weeks.
                     </p>
 <div class="flex flex-wrap gap-md">
 <button class="btn-primary font-label-md text-label-md font-bold px-lg py-md rounded" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/krishna14chaturvedi/discovery-call'}); return false;">
                             Start building with the best
-                        </button>
-<button class="bg-surface-container border card-border text-on-surface font-label-md text-label-md px-lg py-md rounded hover:bg-surface-variant transition-colors" onclick="alert('Documentation coming soon!');">
-                            View Documentation
                         </button>
 </div>
 </div>
@@ -570,16 +610,16 @@ animate();
 <h2 class="font-headline-lg text-headline-lg text-center mb-xl text-on-surface">Why Trust Pulse ML</h2>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
 <!-- Card 1 -->
-<div class="card-bg card-border rounded-xl p-lg hover-glow transition-all duration-300 relative overflow-hidden group">
-<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-md border card-border shadow-[0_0_15px_rgba(59,158,255,0.1)]">
-<span class="material-symbols-outlined text-primary">radar</span>
+<div class="card-bg card-border rounded-xl p-lg hover-glow hover-glow-teal transition-all duration-300 relative overflow-hidden group">
+<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-md border card-border shadow-[0_0_15px_rgba(16,217,160,0.1)]">
+<span class="material-symbols-outlined text-tertiary">radar</span>
 </div>
 <h3 class="font-headline-sm text-headline-sm mb-sm text-on-surface">Anomaly Detection</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Real-time identification of statistical outliers in high-throughput data streams.</p>
 </div>
 <!-- Card 2 -->
-<div class="card-bg card-border rounded-xl p-lg hover-glow transition-all duration-300 relative overflow-hidden group">
+<div class="card-bg card-border rounded-xl p-lg hover-glow hover-glow-violet transition-all duration-300 relative overflow-hidden group">
 <div class="absolute inset-0 bg-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-md border card-border shadow-[0_0_15px_rgba(139,92,246,0.1)]">
 <span class="material-symbols-outlined text-secondary">trending_up</span>
@@ -589,9 +629,9 @@ animate();
 </div>
 <!-- Card 3 -->
 <div class="card-bg card-border rounded-xl p-lg hover-glow transition-all duration-300 relative overflow-hidden group">
-<div class="absolute inset-0 bg-tertiary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-md border card-border shadow-[0_0_15px_rgba(37,224,167,0.1)]">
-<span class="material-symbols-outlined text-tertiary">dashboard</span>
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-md border card-border shadow-[0_0_15px_rgba(59,158,255,0.1)]">
+<span class="material-symbols-outlined text-primary">dashboard</span>
 </div>
 <h3 class="font-headline-sm text-headline-sm mb-sm text-on-surface">KPI Dashboard</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Unified command center visualizing critical metrics and model performance drift.</p>
@@ -615,26 +655,30 @@ animate();
 <h3 class="font-headline-sm text-headline-sm text-on-surface">NetWatch — Telecom KPI Monitor</h3>
 </div>
 <p class="font-body-md text-body-md text-on-surface-variant mb-lg flex-grow">
-                            Real-time network performance monitoring detecting anomalies across thousands of cell towers globally.
+                            Real-time anomaly detection system for telecom tower KPIs. Built on a Kafka stream pipeline with Isolation Forest and a PyTorch Autoencoder. Detects network degradation before it impacts users.
                         </p>
 <div class="flex flex-wrap gap-sm mb-lg">
-<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-on-surface-variant">Kafka</span>
-<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-on-surface-variant">PyTorch</span>
-<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-on-surface-variant">Isolation Forest</span>
+<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-tertiary">Kafka</span>
+<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-tertiary">PyTorch</span>
+<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-tertiary">Isolation Forest</span>
 </div>
-<div class="grid grid-cols-2 gap-4 border-t border-surface-variant pt-md">
+<div class="grid grid-cols-3 gap-4 border-t border-surface-variant pt-md">
 <div>
-<div class="font-headline-sm text-tertiary font-label-mono">1.2B</div>
-<div class="font-label-sm text-on-surface-variant">Events / Day</div>
+<div class="font-headline-sm text-tertiary font-label-mono">~5ms</div>
+<div class="font-label-sm text-on-surface-variant">Detection latency</div>
 </div>
 <div>
-<div class="font-headline-sm text-tertiary font-label-mono">&lt;10ms</div>
-<div class="font-label-sm text-on-surface-variant">Detection Latency</div>
+<div class="font-headline-sm text-tertiary font-label-mono">Real-time</div>
+<div class="font-label-sm text-on-surface-variant">Stream processing</div>
+</div>
+<div>
+<div class="font-headline-sm text-tertiary font-label-mono">Dual model</div>
+<div class="font-label-sm text-on-surface-variant">Ensemble detection</div>
 </div>
 </div>
 </div>
 <!-- Case Study 2 -->
-<div class="card-bg card-border rounded-xl p-lg hover-glow transition-all duration-300 flex flex-col h-full">
+<div class="card-bg card-border rounded-xl p-lg hover-glow hover-glow-violet transition-all duration-300 flex flex-col h-full">
 <div class="flex items-center gap-sm mb-md">
 <div class="w-8 h-8 rounded bg-secondary/10 flex items-center justify-center border border-secondary/20">
 <span class="material-symbols-outlined text-secondary text-[18px]">show_chart</span>
@@ -645,18 +689,22 @@ animate();
                             Predictive analytics engine forecasting core business metrics with dynamic confidence intervals.
                         </p>
 <div class="flex flex-wrap gap-sm mb-lg">
-<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-on-surface-variant">CatBoost</span>
-<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-on-surface-variant">FastAPI</span>
-<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-on-surface-variant">Streamlit</span>
+<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-secondary">CatBoost</span>
+<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-secondary">FastAPI</span>
+<span class="px-3 py-1 rounded-full bg-surface-container border border-surface-variant font-label-mono text-[10px] text-secondary">Streamlit</span>
 </div>
-<div class="grid grid-cols-2 gap-4 border-t border-surface-variant pt-md">
+<div class="grid grid-cols-3 gap-4 border-t border-surface-variant pt-md">
 <div>
-<div class="font-headline-sm text-secondary font-label-mono">94%</div>
-<div class="font-label-sm text-on-surface-variant">Accuracy @ 30d</div>
+<div class="font-headline-sm text-secondary font-label-mono">30-day</div>
+<div class="font-label-sm text-on-surface-variant">Forecast horizon</div>
 </div>
 <div>
-<div class="font-headline-sm text-secondary font-label-mono">15+</div>
-<div class="font-label-sm text-on-surface-variant">KPIs Tracked</div>
+<div class="font-headline-sm text-secondary font-label-mono">CatBoost</div>
+<div class="font-label-sm text-on-surface-variant">Model backbone</div>
+</div>
+<div>
+<div class="font-headline-sm text-secondary font-label-mono">CI bands</div>
+<div class="font-label-sm text-on-surface-variant">Uncertain range</div>
 </div>
 </div>
 </div>
@@ -688,8 +736,8 @@ animate();
 </ul>
 </div>
 <!-- Code Snippet / Dashboard Preview -->
-<div class="card-bg card-border rounded-xl p-md overflow-hidden relative shadow-2xl">
-<div class="flex items-center gap-sm border-b border-surface-variant pb-sm mb-sm">
+<div class="card-bg card-border rounded-xl p-md overflow-hidden relative code-panel">
+<div class="flex items-center gap-sm border-b border-surface-variant pb-sm mb-sm relative z-10">
 <div class="flex gap-[6px]">
 <div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
 <div class="w-3 h-3 rounded-full bg-surface-container-highest"></div>
@@ -697,7 +745,7 @@ animate();
 </div>
 <div class="font-label-mono text-[12px] text-tertiary ml-sm">pipeline.py</div>
 </div>
-<pre class="font-mono text-[13px] leading-relaxed overflow-x-auto text-on-surface-variant"><code class="language-python">
+<pre class="font-mono text-[13px] leading-relaxed overflow-x-auto text-on-surface-variant relative z-10"><code class="language-python">
 <span class="text-secondary">import</span> pulse_ml
 
 <span class="text-tertiary/70"># Initialize production environment</span>
@@ -725,15 +773,15 @@ print(f<span class="text-primary-container">"Model deployed to: {model.endpoint}
 <div class="max-w-5xl mx-auto px-lg relative z-10">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-xl text-center divide-y md:divide-y-0 md:divide-x divide-surface-variant">
 <div class="py-md md:py-0">
-<div class="font-headline-xl text-headline-xl text-gradient mb-sm font-label-mono">5ms</div>
+<div class="font-headline-xl text-headline-xl text-gradient-blue-teal mb-sm font-label-mono">5ms</div>
 <div class="font-label-md text-label-md text-on-surface-variant tracking-widest uppercase">Inference Latency</div>
 </div>
 <div class="py-md md:py-0">
-<div class="font-headline-xl text-headline-xl text-gradient mb-sm font-label-mono">30d</div>
+<div class="font-headline-xl text-headline-xl text-gradient-blue-violet mb-sm font-label-mono">30d</div>
 <div class="font-label-md text-label-md text-on-surface-variant tracking-widest uppercase">Forecast Horizon</div>
 </div>
 <div class="py-md md:py-0">
-<div class="font-headline-xl text-headline-xl text-gradient mb-sm font-label-mono">3+</div>
+<div class="font-headline-xl text-headline-xl text-gradient-blue-teal mb-sm font-label-mono">3+</div>
 <div class="font-label-md text-label-md text-on-surface-variant tracking-widest uppercase">Projects Shipped</div>
 </div>
 </div>
@@ -744,7 +792,7 @@ print(f<span class="text-primary-container">"Model deployed to: {model.endpoint}
 <div class="glow-effect glow-blue bottom-0 left-1/2 transform -translate-x-full translate-y-1/2 w-[400px] h-[400px] opacity-20"></div>
 <div class="glow-effect glow-violet bottom-0 left-1/2 transform translate-x-0 translate-y-1/2 w-[400px] h-[400px] opacity-20"></div>
 <h2 class="font-headline-xl text-headline-xl mb-lg text-on-surface relative z-10">
-                Sophisticated ML,<br/><span class="text-gradient">simplified.</span>
+                Sophisticated ML,<br/><span class="text-gradient-blue-violet">simplified.</span>
 </h2>
 <button class="btn-primary font-label-md text-label-md font-bold px-xl py-lg rounded-lg text-[16px] relative z-10 mb-md" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/krishna14chaturvedi/discovery-call'}); return false;">
                 Start building with the best
@@ -764,10 +812,7 @@ print(f<span class="text-primary-container">"Model deployed to: {model.endpoint}
                 © 2024 Pulse ML. Sophisticated Intelligence.
             </div>
 <div class="flex space-x-lg">
-<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Privacy Policy</a>
-<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Terms of Service</a>
-<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">Twitter</a>
-<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="#">GitHub</a>
+<a class="text-on-surface-variant font-label-sm text-label-sm hover:text-primary transition-colors" href="https://github.com/Krishna-chaturvedi-14">GitHub</a>
 </div>
 </div>
 </footer>
